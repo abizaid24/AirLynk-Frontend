@@ -1,0 +1,345 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ---------------------------------------------------------------
+   AirLynk Design Tokens — Premium Airline Palette v3 ("Leather & Ivory")
+   Five warm, coordinated tones, all pulled from the AirLynk eagle
+   mark itself: Dark Brown (brand) · Skin/Camel · Black · White(Ivory)
+   · Grey. Every neutral in the system carries the SAME warm brown
+   undertone — that's what keeps five colors from ever fighting each
+   other or looking "merged." No blue, no glow, no glass.
+
+   Light mode = day (warm ivory, brown accent). Dark mode = night
+   (espresso black, same brown accent, camel highlights).
+
+   Legacy variable NAMES (navy-950/800/700/600, pearl, chrome,
+   aurora, lavender) are kept so the ~90 existing components that
+   already reference them (bg-navy-800, text-pearl, text-chrome,
+   text-aurora, etc.) pick up the new system automatically, with zero
+   missed call-sites. Only what these names RESOLVE TO has changed —
+   think of them as role tokens now, not literal colors:
+     navy-950  -> page background (flips)
+     navy-900  -> app-bar / raised background (flips)
+     navy-800  -> card surface (flips)
+     navy-700  -> input / control surface (flips)
+     navy-600  -> hover / subtle-fill surface (flips)
+     pearl     -> primary text (flips)
+     chrome    -> secondary/muted text (flips)
+     aurora    -> Dark Brown brand accent, matched to the logo (fixed)
+     lavender  -> Skin/Camel secondary accent (fixed)
+   Two fixed (never-flipping) tokens cover the small number of places
+   that are deliberately always-dark by design (the footer band, the
+   boarding pass card, the cinematic intro, and button text sitting
+   on a bright accent fill) — see `ink-fixed` and `paper-fixed`.
+----------------------------------------------------------------*/
+:root {
+  /* Dark Brown — the ONE brand accent, matched directly to the AirLynk
+     eagle mark (#825A00) and deepened slightly for text-contrast use */
+  --sky-blue: #8a5a12;
+  --sky-blue-dim: #6b4710;
+
+  /* Skin / Camel — secondary accent, warm and light, never cool */
+  --ocean-blue: #c8a476;
+  --ocean-blue-dim: #ab8757;
+
+  /* Fixed, theme-independent tokens */
+  --ink-fixed: #1a130d; /* always-dark warm-black text, e.g. on a camel fill */
+  --paper-fixed: #f6efe3; /* always-light ivory text, e.g. inside the dark footer band */
+  --paper-fixed-muted: rgba(246, 239, 227, 0.68);
+
+  /* ---- LIGHT MODE (default / "day") ---- */
+  --navy-950: #faf6ee; /* page background — warm ivory, not stark white */
+  --navy-900: #f3ebdc; /* app-bar / raised background */
+  --navy-800: #fffdf8; /* card surface (near-white, defined by border+shadow) */
+  --navy-700: #efe4d1; /* input / control surface */
+  --navy-600: #e7d8bf; /* hover / subtle fill */
+
+  --pearl: #221a12; /* primary text — warm near-black */
+  --chrome: #7c6c56; /* secondary / muted text — warm grey */
+  --chrome-dim: #a89880; /* faint / placeholder text */
+
+  --border-tone: #e3d5be;
+  --shadow-tone: rgba(37, 25, 10, 0.1);
+
+  --background: var(--navy-950);
+  --foreground: var(--pearl);
+
+  --card: var(--navy-800);
+  --card-foreground: var(--pearl);
+
+  --primary: var(--sky-blue);
+  --primary-foreground: var(--paper-fixed);
+
+  --secondary: var(--ocean-blue);
+  --secondary-foreground: var(--ink-fixed);
+
+  --muted: var(--navy-700);
+  --muted-foreground: var(--chrome);
+
+  --accent: var(--navy-600);
+  --accent-foreground: var(--pearl);
+
+  --destructive: #a83a2c;
+  --border: var(--border-tone);
+  --input: var(--border-tone);
+  --ring: var(--sky-blue);
+
+  --radius: 0.85rem;
+
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+    "Inter Variable", var(--font-geist-sans), ui-sans-serif, system-ui,
+    sans-serif;
+  --font-body: -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Inter Variable", var(--font-geist-sans), ui-sans-serif, system-ui,
+    sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", monospace;
+}
+
+/* ---- DARK MODE ("night") ---- */
+.dark {
+  --navy-950: #120d08; /* page background — espresso black, brown-tinted */
+  --navy-900: #1a140d; /* app-bar / raised background */
+  --navy-800: #241c12; /* card surface */
+  --navy-700: #2f2517; /* input / control surface */
+  --navy-600: #3c301e; /* hover / subtle fill */
+
+  --pearl: #f3ead9; /* primary text — warm ivory */
+  --chrome: #b7a68b; /* secondary / muted text — warm grey */
+  --chrome-dim: #8a7a62; /* faint / placeholder text */
+
+  --border-tone: rgba(216, 189, 148, 0.14);
+  --shadow-tone: rgba(0, 0, 0, 0.6);
+
+  --primary-foreground: var(--paper-fixed);
+  --secondary-foreground: var(--ink-fixed);
+  --destructive: #d9584a;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-navy-950: var(--navy-950);
+  --color-navy-900: var(--navy-900);
+  --color-navy-800: var(--navy-800);
+  --color-navy-700: var(--navy-700);
+  --color-navy-600: var(--navy-600);
+
+  --color-aurora: var(--sky-blue);
+  --color-aurora-dim: var(--sky-blue-dim);
+  --color-lavender: var(--ocean-blue);
+  --color-lavender-dim: var(--ocean-blue-dim);
+
+  --color-sky: var(--sky-blue);
+  --color-sky-dim: var(--sky-blue-dim);
+  --color-gold: var(--ocean-blue);
+  --color-gold-dim: var(--ocean-blue-dim);
+
+  --color-pearl: var(--pearl);
+  --color-chrome: var(--chrome);
+  --color-chrome-dim: var(--chrome-dim);
+
+  --color-ink-fixed: var(--ink-fixed);
+  --color-paper-fixed: var(--paper-fixed);
+  --color-paper-fixed-muted: var(--paper-fixed-muted);
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 0.3rem);
+  --radius-sm: calc(var(--radius) - 0.5rem);
+
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  letter-spacing: -0.011em;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+::selection {
+  background: var(--sky-blue);
+  color: var(--ink-fixed);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--navy-950);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--navy-600);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--sky-blue-dim);
+}
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+/* Premium glassmorphism surface for cards/panels — flips with the theme.
+   Frosted blur + hairline border + soft depth shadow + a faint inner
+   highlight along the top edge, the way light catches frosted glass. */
+.glass-panel {
+  background: color-mix(in srgb, var(--navy-800) 72%, transparent);
+  border: 1px solid var(--border-tone);
+  box-shadow:
+    0 24px 60px -20px var(--shadow-tone),
+    inset 0 1px 0 0 color-mix(in srgb, var(--pearl) 6%, transparent);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+}
+
+/* Slightly lighter frosted surface for elevated/floating elements
+   (search card, popovers) — a touch more blur, a touch more glow. */
+.glass-panel-elevated {
+  background: color-mix(in srgb, var(--navy-800) 62%, transparent);
+  border: 1px solid color-mix(in srgb, var(--sky-blue) 18%, var(--border-tone));
+  box-shadow:
+    0 32px 80px -24px var(--shadow-tone),
+    0 0 0 1px color-mix(in srgb, var(--sky-blue) 6%, transparent),
+    inset 0 1px 0 0 color-mix(in srgb, var(--pearl) 8%, transparent);
+  backdrop-filter: blur(28px) saturate(150%);
+  -webkit-backdrop-filter: blur(28px) saturate(150%);
+}
+
+/* Ambient light wash used behind full-bleed sections — soft two-tone
+   falloff (sky blue + ocean blue) for a premium atmospheric glow. */
+.aurora-glow {
+  background: radial-gradient(
+      65% 55% at 50% 0%,
+      rgba(138, 90, 18, 0.14) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      50% 45% at 85% 15%,
+      rgba(200, 164, 118, 0.14) 0%,
+      transparent 65%
+    );
+}
+
+/* Tasteful two-tone headline treatment with a glowing accent segment. */
+.text-gradient-aurora {
+  background: linear-gradient(90deg, var(--pearl) 0%, var(--pearl) 45%, var(--sky-blue) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Soft ambient glow behind elements — pill badges, icon chips, orbs. */
+.glow-sky {
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--sky-blue) 30%, transparent),
+    0 0 24px 0 color-mix(in srgb, var(--sky-blue) 35%, transparent),
+    0 0 64px 8px color-mix(in srgb, var(--sky-blue) 12%, transparent);
+}
+
+.glow-sky-text {
+  text-shadow: 0 0 24px color-mix(in srgb, var(--sky-blue) 45%, transparent);
+}
+
+/* Premium gradient fill for primary CTAs — sky blue -> ocean blue,
+   with a bloom on hover rather than a flat brightness bump. */
+.gradient-primary {
+  background: linear-gradient(135deg, #b3822f 0%, var(--sky-blue) 45%, var(--ocean-blue-dim) 100%);
+}
+
+/* Animated gradient border — used sparingly on the hero search card
+   and other single "hero" surfaces so it reads as premium, not busy. */
+@property --gradient-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.gradient-border-glow {
+  position: relative;
+}
+.gradient-border-glow::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--gradient-angle),
+    color-mix(in srgb, var(--sky-blue) 60%, transparent),
+    transparent 25%,
+    transparent 50%,
+    color-mix(in srgb, var(--ocean-blue) 55%, transparent) 75%,
+    color-mix(in srgb, var(--sky-blue) 60%, transparent)
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: gradient-spin 8s linear infinite;
+  pointer-events: none;
+  opacity: 0.55;
+}
+@keyframes gradient-spin {
+  to {
+    --gradient-angle: 360deg;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gradient-border-glow::before {
+    animation: none;
+  }
+}
+
+/* Floating particle dot used by <FloatingParticles /> */
+.particle-dot {
+  position: absolute;
+  border-radius: 999px;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--sky-blue) 90%, white) 0%,
+    color-mix(in srgb, var(--sky-blue) 40%, transparent) 60%,
+    transparent 100%
+  );
+  filter: blur(0.5px);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
